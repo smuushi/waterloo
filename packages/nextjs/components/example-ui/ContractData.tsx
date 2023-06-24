@@ -16,6 +16,7 @@ export const ContractData = () => {
   const [transitionEnabled, setTransitionEnabled] = useState(true);
   const [isRightDirection, setIsRightDirection] = useState(false);
   const [marqueeSpeed, setMarqueeSpeed] = useState(0);
+  const [selectedVillgaer, setSelectedVillager] = useState("");
 
   const containerRef = useRef<HTMLDivElement>(null);
   const greetingRef = useRef<HTMLDivElement>(null);
@@ -30,9 +31,15 @@ export const ContractData = () => {
     functionName: "greeting",
   });
 
-  // const { data: villagers } = useScaffoldContractRead({
+  const { data: villagers } = useScaffoldContractRead({
+    contractName: "YourContract",
+    functionName: "showAllVillagers"
+  })
+
+  // const { data: ownedVillagers } = useScaffoldContractRead({
   //   contractName: "YourContract",
-  //   functionName: "showOwnedVillagers"
+  //   functionName: "villagerToOwner"
+  //   args: address
   // })
 
   useScaffoldEventSubscriber({
@@ -72,6 +79,39 @@ export const ContractData = () => {
     }
   }, [transitionEnabled, containerRef, greetingRef]);
 
+  console.log(villagers)
+  // console.log(address)
+
+  // debugger
+
+  const [yourVillagers, setYourVillagers] = useState({})
+
+  // const yourVillagers = [];
+
+  useEffect(() => {
+
+    let tempVillagers = {};
+    villagers?.forEach((villager, idx) => {
+      // debugger
+      if (villager.owner === address){
+        // debugger
+        tempVillagers[idx] = villager;
+      }
+
+    setYourVillagers(() => tempVillagers)
+
+    })
+  },[villagers])
+
+  
+
+  console.log(yourVillagers)
+  // console.log(yourVillagers)
+  // console.log(yourVillagers)
+  // console.log(yourVillagers)
+  // console.log(yourVillagers)
+
+
   return (
     <div className="flex flex-col justify-center items-center bg-[url('/assets/gradient-bg.png')] bg-[length:100%_100%] py-10 px-5 sm:px-0 lg:py-auto max-w-[100vw] ">
       <div
@@ -98,7 +138,24 @@ export const ContractData = () => {
               {totalCounter?.toString() || "0"}
             </div>
           </div>
+            <br/>
+
+          <div className="bg-secondary border border-primary rounded-xl flex">
+            <div className="p-2 py-1 border-r border-primary flex items-end">All Villagers</div>
+            <div className="text-4xl text-right min-w-[3rem] px-2 py-1 flex justify-end font-bai-jamjuree">
+              {villagers?.toString() || "none atm"}
+            </div>
+          </div>
+
+
         </div>
+
+        <div className="bg-secondary border border-primary rounded-xl flex">
+            <div className="p-2 py-1 border-r border-primary flex items-end">Your Villagers</div>
+            <div className="text-4xl text-right min-w-[3rem] px-2 py-1 flex justify-end font-bai-jamjuree">
+              {Object.values(yourVillagers).map((villager) => villager.name).toString() || "none atm"}
+            </div>
+          </div>
 
         <div className="mt-3 border border-primary bg-neutral rounded-3xl text-secondary  overflow-hidden text-[116px] whitespace-nowrap w-full uppercase tracking-tighter font-bai-jamjuree leading-tight">
           <div className="relative overflow-x-hidden" ref={containerRef}>
