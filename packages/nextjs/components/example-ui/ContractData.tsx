@@ -33,8 +33,8 @@ export const ContractData = () => {
 
   const { data: villagers } = useScaffoldContractRead({
     contractName: "YourContract",
-    functionName: "showAllVillagers"
-  })
+    functionName: "showAllVillagers",
+  });
 
   // const { data: ownedVillagers } = useScaffoldContractRead({
   //   contractName: "YourContract",
