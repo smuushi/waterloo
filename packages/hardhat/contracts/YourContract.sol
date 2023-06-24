@@ -18,10 +18,19 @@ contract YourContract {
     string public greeting = "Building Unstoppable Apps!!!";
     bool public premium = false;
     uint256 public totalCounter = 0;
+    string public testing = "asdfasdfda";
+
     mapping(address => uint) public userGreetingCounter;
 
     // Events: a way to emit log statements from smart contract that can be listened to by external parties
     event GreetingChange(address indexed greetingSetter, string newGreeting, bool premium, uint256 value);
+
+
+    //OUR CODE
+    
+    event newVillagerEvent(address indexed villagerOwnerAddress, uint id, string name, uint dna);
+
+    //
 
     // Constructor: Called once on contract deployment
     // Check packages/hardhat/deploy/00_deploy_your_contract.ts
@@ -63,6 +72,46 @@ contract YourContract {
         // emit: keyword used to trigger an event
         emit GreetingChange(msg.sender, _newGreeting, msg.value > 0, 0);
     }
+
+//  OUR CODE BELOWWW
+
+    uint dnaDigits = 16;
+    uint dnaModulus = 10 ** dnaDigits;
+
+    struct Villager {
+        string name;
+        uint dna;
+    }
+
+    Villager[] public allVillagers;
+
+    function showOwnedVillagers() public view returns(Villager[] memory) {
+        return allVillagers;
+    }
+
+    mapping (uint => address) public villagerToOwner; // hash for villager id => wallet address
+    mapping (address => uint) ownerVillagerCount; // hash for wallet address => their number of villagers they own. 
+
+    function _createVillager(string memory _name, uint _dna) private{
+        allVillagers.push(Villager(_name, _dna));
+        uint id = allVillagers.length - 1;
+        // address ownerAddress = msg.sender;
+        villagerToOwner[id] = msg.sender;
+        ownerVillagerCount[msg.sender]++;
+        emit newVillagerEvent(msg.sender, id, _name, _dna);
+    }
+
+    function _generateRandomDna(string memory _str) private view returns(uint) {
+        uint rand = uint(keccak256(abi.encodePacked(_str)));
+        return rand % dnaModulus;
+    }
+
+    function createRandomVillager(string memory _name) public {
+        // require(ownerZombieCount[msg.sender] == 0);
+        uint randDna = _generateRandomDna(_name);
+        _createVillager(_name, randDna);
+    }
+
 
     /**
      * Function that allows the owner to withdraw all the Ether in the contract

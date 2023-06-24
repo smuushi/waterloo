@@ -30,6 +30,11 @@ export const ContractData = () => {
     functionName: "greeting",
   });
 
+  // const { data: villagers } = useScaffoldContractRead({
+  //   contractName: "YourContract",
+  //   functionName: "showOwnedVillagers"
+  // })
+
   useScaffoldEventSubscriber({
     contractName: "YourContract",
     eventName: "GreetingChange",
