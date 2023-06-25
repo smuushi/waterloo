@@ -5,7 +5,7 @@ const contracts = {
       name: "localhost",
       contracts: {
         YourContract: {
-          address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+          address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
           abi: [
             {
               inputs: [
@@ -88,6 +88,45 @@ const contracts = {
                   type: "uint256",
                 },
               ],
+              name: "allNFTs",
+              outputs: [
+                {
+                  internalType: "string",
+                  name: "owner",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "creator",
+                  type: "string",
+                },
+                {
+                  internalType: "uint256",
+                  name: "id",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint256",
+                  name: "supply",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint256",
+                  name: "contractAddress",
+                  type: "uint256",
+                },
+              ],
+              stateMutability: "view",
+              type: "function",
+            },
+            {
+              inputs: [
+                {
+                  internalType: "uint256",
+                  name: "",
+                  type: "uint256",
+                },
+              ],
               name: "allVillagers",
               outputs: [
                 {
@@ -133,6 +172,24 @@ const contracts = {
                 },
               ],
               name: "createRandomVillager",
+              outputs: [],
+              stateMutability: "nonpayable",
+              type: "function",
+            },
+            {
+              inputs: [
+                {
+                  internalType: "uint256",
+                  name: "_villagerIndex",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint256",
+                  name: "_NFTIndex",
+                  type: "uint256",
+                },
+              ],
+              name: "equip",
               outputs: [],
               stateMutability: "nonpayable",
               type: "function",
@@ -211,6 +268,11 @@ const contracts = {
                       type: "address",
                     },
                     {
+
+                      internalType: "uint256[]",
+                      name: "inventory",
+                      type: "uint256[]",
+
                       internalType: "uint256",
                       name: "strength",
                       type: "uint256",
@@ -224,6 +286,7 @@ const contracts = {
                       internalType: "uint256",
                       name: "intelligence",
                       type: "uint256",
+
                     },
                   ],
                   internalType: "struct YourContract.Villager[]",

@@ -91,16 +91,17 @@ contract YourContract {
     struct Villager {
         string name;
         uint dna;
-
         address owner;
         uint strength;
         uint dex;
         uint intelligence;
+        uint[] inventory;
     }
 
     
 
     Villager[] public allVillagers;
+    NFT[] public allNFTs;
 
     function showAllVillagers() public view returns(Villager[] memory) {
         return allVillagers;
@@ -130,7 +131,11 @@ contract YourContract {
     mapping (address => uint) ownerVillagerCount; // hash for wallet address => their number of villagers they own. 
 
     function _createVillager(string memory _name, uint _dna) private{
-        allVillagers.push(Villager(_name, _dna, msg.sender, _dna % 10, _dna % 100 / 10, _dna / 100));
+
+        // NFT[] memory emptyInventory = new NFT[](10);
+
+        allVillagers.push(Villager(_name, _dna, msg.sender, _dna % 10, _dna % 100 / 10, _dna / 100, new uint[](10)));
+
         uint id = allVillagers.length - 1;
         // address ownerAddress = msg.sender;
         villagerToOwner[id] = msg.sender;
@@ -157,6 +162,13 @@ contract YourContract {
     
 
     // equip(_dna, _equipment) adds _equipment into a villager's inventory if inventory isn't full
+
+    function equip(uint _villagerIndex, uint _NFTIndex) public {
+        // NFT storage selectedNFT = allNFTs[_NFTIndex];
+        // Villager storage selectedVillager = allVillagers[_villagerIndex];
+        allVillagers[_villagerIndex].inventory.push(_NFTIndex);
+    }
+
     // function equip(uint _dna, NFT _equipment) public {
     //     for (uint _i = 0; _i < maxInventorySpace; ++_i) {
     //         if (villager.inventory[_i].id == 0) {
@@ -167,7 +179,6 @@ contract YourContract {
     //         }
     //     }
     // }
-
 
 
 
