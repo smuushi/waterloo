@@ -86,6 +86,9 @@ contract YourContract {
         string name;
         uint dna;
         address owner;
+        uint strength;
+        uint dex;
+        uint intelligence;
     }
 
     
@@ -120,7 +123,7 @@ contract YourContract {
     mapping (address => uint) ownerVillagerCount; // hash for wallet address => their number of villagers they own. 
 
     function _createVillager(string memory _name, uint _dna) private{
-        allVillagers.push(Villager(_name, _dna, msg.sender));
+        allVillagers.push(Villager(_name, _dna, msg.sender, _dna % 10, _dna % 100 / 10, _dna / 100));
         uint id = allVillagers.length - 1;
         // address ownerAddress = msg.sender;
         villagerToOwner[id] = msg.sender;

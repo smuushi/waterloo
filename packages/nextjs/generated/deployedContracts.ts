@@ -5,7 +5,7 @@ const contracts = {
       name: "localhost",
       contracts: {
         YourContract: {
-          address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+          address: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
           abi: [
             {
               inputs: [
@@ -105,6 +105,21 @@ const contracts = {
                   name: "owner",
                   type: "address",
                 },
+                {
+                  internalType: "uint256",
+                  name: "strength",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint256",
+                  name: "dex",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint256",
+                  name: "intelligence",
+                  type: "uint256",
+                },
               ],
               stateMutability: "view",
               type: "function",
@@ -194,6 +209,21 @@ const contracts = {
                       internalType: "address",
                       name: "owner",
                       type: "address",
+                    },
+                    {
+                      internalType: "uint256",
+                      name: "strength",
+                      type: "uint256",
+                    },
+                    {
+                      internalType: "uint256",
+                      name: "dex",
+                      type: "uint256",
+                    },
+                    {
+                      internalType: "uint256",
+                      name: "intelligence",
+                      type: "uint256",
                     },
                   ],
                   internalType: "struct YourContract.Villager[]",
