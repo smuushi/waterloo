@@ -144,6 +144,21 @@ const contracts = {
                   name: "owner",
                   type: "address",
                 },
+                {
+                  internalType: "uint256",
+                  name: "strength",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint256",
+                  name: "dex",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint256",
+                  name: "intelligence",
+                  type: "uint256",
+                },
               ],
               stateMutability: "view",
               type: "function",
@@ -253,9 +268,25 @@ const contracts = {
                       type: "address",
                     },
                     {
+
                       internalType: "uint256[]",
                       name: "inventory",
                       type: "uint256[]",
+
+                      internalType: "uint256",
+                      name: "strength",
+                      type: "uint256",
+                    },
+                    {
+                      internalType: "uint256",
+                      name: "dex",
+                      type: "uint256",
+                    },
+                    {
+                      internalType: "uint256",
+                      name: "intelligence",
+                      type: "uint256",
+
                     },
                   ],
                   internalType: "struct YourContract.Villager[]",
