@@ -93,13 +93,6 @@ contract YourContract {
         uint dna;
 
         address owner;
-<<<<<<< HEAD
-
-=======
-        uint strength;
-        uint dex;
-        uint intelligence;
->>>>>>> situationrender
     }
 
     
