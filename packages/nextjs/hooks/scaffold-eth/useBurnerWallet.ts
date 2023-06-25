@@ -112,18 +112,18 @@ export const useBurnerWallet = (): TBurnerSigner => {
    */
   const generateNewBurner = useCallback(() => {
     if (provider && !isCreatingNewBurnerRef.current) {
-      console.log("🔑 Create new burner wallet...");
+      // console.log("🔑 Create new burner wallet...");
       isCreatingNewBurnerRef.current = true;
 
       const wallet = Wallet.createRandom().connect(provider);
       setBurnerSk(() => {
-        console.log("🔥 ...Save new burner wallet");
+        // console.log("🔥 ...Save new burner wallet");
         isCreatingNewBurnerRef.current = false;
         return wallet.privateKey;
       });
       return wallet;
     } else {
-      console.log("⚠ Could not create burner wallet");
+      // console.log("⚠ Could not create burner wallet");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [provider?.network?.chainId]);

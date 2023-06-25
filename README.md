@@ -168,7 +168,7 @@ const { writeAsync, isLoading, isMining } = useScaffoldContractWrite({
   blockConfirmations: 1,
   // The callback function to execute when the transaction is confirmed.
   onBlockConfirmation: (txnReceipt) => {
-    console.log("Transaction blockHash", txnReceipt.blockHash);
+    // console.log("Transaction blockHash", txnReceipt.blockHash);
   },
 });
 ```
@@ -194,7 +194,7 @@ useScaffoldEventSubscriber({
   // The listener function is called whenever a GreetingChange event is emitted by the contract.
   // It receives the parameters emitted by the event, for this example: GreetingChange(address greetingSetter, string newGreeting, bool premium, uint256 value);
   listener: (greetingSetter, newGreeting, premium, value) => {
-    console.log(greetingSetter, newGreeting, premium, value);
+    // console.log(greetingSetter, newGreeting, premium, value);
   },
 });
 ```
