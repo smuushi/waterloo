@@ -30,11 +30,9 @@ contract YourContract {
     event GreetingChange(address indexed greetingSetter, string newGreeting, bool premium, uint256 value);
 
 
-    //OUR CODE
-    
-    event newVillagerEvent(address indexed villagerOwnerAddress, uint id, string name, uint dna);
 
-    //
+    // OUR CODE //    
+    event newVillagerEvent(address indexed villagerOwnerAddress, uint id, string name, uint dna);
 
     // Constructor: Called once on contract deployment
     // Check packages/hardhat/deploy/00_deploy_your_contract.ts
@@ -50,7 +48,6 @@ contract YourContract {
         _;
     }
 
-    
     /**
      * Function that allows anyone to change the state variable "greeting" of the contract and increase the counters
      *
@@ -77,15 +74,26 @@ contract YourContract {
         emit GreetingChange(msg.sender, _newGreeting, msg.value > 0, 0);
     }
 
-//  OUR CODE BELOWWW
+    // OUR CODE BELOW //
 
     uint dnaDigits = 3;
     uint dnaModulus = 10 ** dnaDigits;
+    uint maxInventorySpace = 10;
+
+    struct NFT {
+        string owner;
+        string creator;
+        uint id;
+        uint supply;
+        uint contractAddress;
+    }
 
     struct Villager {
         string name;
         uint dna;
+
         address owner;
+
     }
 
     
@@ -142,6 +150,24 @@ contract YourContract {
         uint randDna = _generateRandomDna(_name);
         _createVillager(_name, randDna);
     }
+
+
+    
+
+    // equip(_dna, _equipment) adds _equipment into a villager's inventory if inventory isn't full
+    function equip(uint _dna, NFT _equipment) public {
+        for (uint _i = 0; _i < maxInventorySpace; ++_i) {
+            if (villager.inventory[_i].id == 0) {
+                villager.inventory[_i] = _equipment;
+                break;
+            } else if (_i == maxInventorySpace - 1) {
+                // Create an error message stating inventory is full
+            }
+        }
+    }
+
+
+
 
 
     /**
