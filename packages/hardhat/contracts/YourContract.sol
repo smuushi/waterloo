@@ -124,11 +124,12 @@ contract YourContract {
 
     // equip(_dna, _equipment) adds _equipment into a villager's inventory
     function equip(uint _dna, NFT _equipment) public {
-        for (uint _i = 0; _i < maxInventorySpace + 1; ++_i) {
+        for (uint _i = 0; _i < maxInventorySpace; ++_i) {
             if (villager.inventory[_i].id == 0) {
-                villager.inventory[i] = _equipment;
-                inventoryFull = false;
+                villager.inventory[_i] = _equipment;
                 break;
+            } else if (_i == maxInventorySpace - 1) {
+                ...
             }
         }
     }
