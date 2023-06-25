@@ -29,11 +29,13 @@ export const ContractInteraction = () => {
         // debugger
         tempVillagers[idx] = villager;
       }
-
+    
     setYourVillagers(() => tempVillagers)
 
     })
   },[villagers])
+
+  console.log(villagers)
 
   const villagerTitle = () => {
     if (Object.keys(yourVillagers).length === 0){
@@ -42,6 +44,17 @@ export const ContractInteraction = () => {
       return <p>{`You have ${Object.keys(yourVillagers).length} villager(s):`}</p>
     }
   }
+  
+  //Items
+
+  const { data: items } = useScaffoldContractRead({
+    contractName: "YourContract",
+    functionName: "showAllItems",
+  });
+
+  console.log(items);
+  // let displayItems = [];
+  // items?.forEach((item) => displayItems.push(item.name))
 
   return (
     <div className="flex bg-base-300 relative pb-10">
@@ -63,6 +76,8 @@ export const ContractInteraction = () => {
                 Intelligence: {parseInt(villager.intelligence._hex, 16)}
                 <br/>
                 Strength: {parseInt(villager.strength._hex, 16)}
+                <br/>
+                Weapons: {villager.inventory.filter((item) => parseInt(item) !== 0).map((i) => String(items[parseInt(i)-1]?.name)+"|")}
               </a>
             ))}
           </div>
