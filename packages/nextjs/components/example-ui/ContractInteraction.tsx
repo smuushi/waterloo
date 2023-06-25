@@ -13,9 +13,9 @@ export const ContractInteraction = () => {
   });
 
   const data = useScaffoldContract({ contractName: "YourContract"});
-  console.log(data);
+  // console.log(data);
   const contractAddress = data?.data?.address; 
-  console.log(contractAddress);
+  // console.log(contractAddress);
 
   const [yourVillagers, setYourVillagers] = useState({});
   const { address } = useAccount();

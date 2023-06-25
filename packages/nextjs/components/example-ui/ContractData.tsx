@@ -3,6 +3,12 @@ import { write } from "fs";
 import { useEffect, useRef, useState } from "react";
 import Marquee from "react-fast-marquee";
 import { useAccount } from "wagmi";
+
+
+const { Configuration, OpenAIApi } = require("openai");
+
+require('dotenv').config()
+
 // import "./rightside.css"
 import {
   useAnimationConfig,
@@ -12,6 +18,7 @@ import {
   useScaffoldEventHistory,
   useScaffoldEventSubscriber,
 } from "~~/hooks/scaffold-eth";
+import { FaucetButton } from "../scaffold-eth";
 
 const MARQUEE_PERIOD_IN_SEC = 5;
 
@@ -20,7 +27,9 @@ export const ContractData = () => {
   const [transitionEnabled, setTransitionEnabled] = useState(true);
   const [isRightDirection, setIsRightDirection] = useState(false);
   const [marqueeSpeed, setMarqueeSpeed] = useState(0);
-  const [selectedVillgaer, setSelectedVillager] = useState("");
+  const [selectedVillager, setSelectedVillager] = useState("");
+
+  // console.log("selectedVillagerIdx", selectedVillager)
 
   const containerRef = useRef<HTMLDivElement>(null);
   const greetingRef = useRef<HTMLDivElement>(null);
@@ -51,11 +60,28 @@ export const ContractData = () => {
   //   args: address
   // })
 
+  const configuration = new Configuration({
+    apiKey: "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",
+  });
+
+
+
+
+  // debugger
+
+  // console.log(configuration)
+
+  // const openai = new OpenAIApi(configuration);
+  // // console.log(openai)
+  // const [prompt, setPrompt] = useState(situation);
+  // const [apiResponse, setApiResponse] = useState("");
+  // const [loading, setLoading] = useState(false);
+
   useScaffoldEventSubscriber({
     contractName: "YourContract",
     eventName: "GreetingChange",
     listener: (greetingSetter, newGreeting, premium, value) => {
-      console.log(greetingSetter, newGreeting, premium, value);
+      // console.log(greetingSetter, newGreeting, premium, value);
     },
   });
 
@@ -71,10 +97,10 @@ export const ContractData = () => {
     blockData: true,
   });
 
-  console.log("Events:", isLoadingEvents, errorReadingEvents, myGreetingChangeEvents);
+  // console.log("Events:", isLoadingEvents, errorReadingEvents, myGreetingChangeEvents);
 
   const { data: yourContract } = useScaffoldContract({ contractName: "YourContract" });
-  console.log("yourContract: ", yourContract);
+  // console.log("yourContract: ", yourContract);
 
   const { showAnimation } = useAnimationConfig(totalCounter);
 
@@ -88,8 +114,8 @@ export const ContractData = () => {
     }
   }, [transitionEnabled, containerRef, greetingRef]);
 
-  console.log("all villagers", villagers)
-  // console.log(address)
+  // console.log("all villagers", villagers)
+  // // console.log(address)
 
   // debugger
 
@@ -114,11 +140,11 @@ export const ContractData = () => {
 
   
 
-  console.log("your villagers", yourVillagers)
-  // console.log(yourVillagers)
-  // console.log(yourVillagers)
-  // console.log(yourVillagers)
-  // console.log(yourVillagers)
+  // console.log("your villagers", yourVillagers)
+  // // console.log(yourVillagers)
+  // // console.log(yourVillagers)
+  // // console.log(yourVillagers)
+  // // console.log(yourVillagers)
   const [newVillagerName, setNewVillagerName] = useState("")
 
   const { writeAsync, isLoading } = useScaffoldContractWrite({
@@ -127,9 +153,57 @@ export const ContractData = () => {
     args: [newVillagerName],
     // value: "0.01",
     onBlockConfirmation: txnReceipt => {
-      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
+      // console.log("📦 Transaction blockHash", txnReceipt.blockHash);
     },
   });
+
+  const [specialItem, setSpecialItem] = useState("");
+
+  const gravy = useScaffoldContractWrite({
+    contractName: "YourContract",
+    functionName: "createItem",
+    args: [specialItem, selectedVillager],
+    // value: "0.01",
+    onBlockConfirmation: txnReceipt => {
+      // console.log("📦 Transaction blockHash", txnReceipt.blockHash);
+    },
+  });
+
+  // console.log("gravy", gravy)
+
+  const openai = new OpenAIApi(configuration);
+  // console.log(openai)
+  const [prompt, setPrompt] = useState(situation);
+  const [apiResponse, setApiResponse] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setPrompt(() => situation)
+  },[situation])
+
+  // // console.log(prompt)
+
+  const sendToAi = async (e) => {
+    debugger
+    e.preventDefault();
+    setLoading(() => true);
+    try {
+      const result = await openai.createCompletion({
+        model: "text-davinci-003",
+        prompt: `Roleplay the following gaming situation for me and if you survive, respond with the "status: Alive", followed by "itemname: one word for the name of the item" that helped you survive. You have ${villagers[selectedVillager]?.strength}/10 strength, ${villagers[selectedVillager]?.intelligence}/10 intelligence, ${villagers[selectedVillager]?.dexterity}/10 dexterity. ${prompt}`,
+        temperature: 0.5,
+        max_tokens: 4000,
+      });
+      //// console.log("response", result.data.choices[0].text);
+      setApiResponse(result.data.choices[0].text);
+      setSpecialItem(result.data.choices[0].text.split(" ")[result.data.choices[0].text.split(" ").length - 1])
+      // debugger
+    } catch (e) {
+      //// console.log(e);
+      setApiResponse("Something is going wrong, Please try again.");
+    }
+    setLoading(() => false);
+  }
 
 
   let papaya;
@@ -138,13 +212,41 @@ export const ContractData = () => {
   //   papaya = Object.values(villagers)
   // }
 
-  // console.log(papaya)
+  // // console.log(papaya)
   // debugger
   // useEffect(() => {
 
     // if (villagers){
-  papaya = Object.values(yourVillagers)?.map((villager) => <li> {villager.name}</li>)
+  papaya = Object.entries(yourVillagers)?.map((villager) => <li style={{cursor: "pointer"}} onClick={(e) => {
+    setSelectedVillager(() => villager[0])
+  }}> {villager[1].name}</li>)
   //   }
+
+  const mintNewItem = async () => {
+
+    const words = apiResponse.split(" ")
+
+    console.log(words[words.length - 1])
+
+
+    setSpecialItem(words[words.length - 1]);
+
+
+
+    console.log(specialItem);
+    // debugger
+
+    
+  }
+
+  const mintProcess = () => {
+    mintNewItem().then(async () => {
+      console.log(specialItem)
+      debugger
+      gravy.writeAsync();
+    })
+  }
+
 
   // },[villagers])
 
@@ -162,7 +264,7 @@ export const ContractData = () => {
             <div className="flex justify-between w-full">
 
                   <div className="bg-secondary border border-primary rounded-xl flex">
-                    <div className="p-2 py-1 border-r border-primary flex items-end">Total count</div>
+                    <div className="p-2 py-1 border-r border-primary flex items-end">Situations Braved</div>
                     <div className="text-4xl text-right min-w-[3rem] px-2 py-1 flex justify-end font-bai-jamjuree">
                       {totalCounter?.toString() || "0"}
                     </div>
@@ -180,14 +282,17 @@ export const ContractData = () => {
 
             </div>
 
-            <div className="bg-secondary border border-primary rounded-xl flex">
-                    <div className="p-2 py-1 border-r border-primary flex items-end">Your Villagers</div>
-                    <div className="text-4xl text-right min-w-[3rem] px-2 py-1 flex justify-end font-bai-jamjuree">
-                        <ul>
-                          {papaya? papaya : null}
-                        </ul>
-                    </div>
-                  </div>
+            {apiResponse !== "" ? 
+            
+            <>
+
+              {apiResponse}
+              
+              <button id="specialbutton" onClick={mintProcess}
+              > MINT UR SPECIAL ITEM</button>
+
+            </> : 
+            
 
               <div className="situationdescription">
                 <section>
@@ -195,7 +300,43 @@ export const ContractData = () => {
                   {situation}
                 </section>
                 <p>Select a villager to handle today's situation!</p>
+
+                <div className="bg-secondary border border-primary rounded-xl flex">
+                      <div className="p-2 py-1 border-r border-primary flex items-end">SELECTION</div>
+                      <div className="text-4xl text-right min-w-[3rem] px-2 py-1 flex justify-end font-bai-jamjuree">
+                          <ul>
+                            {yourVillagers[selectedVillager]?.name}
+                          </ul>
+                      </div>
+                {selectedVillager? <button onClick={sendToAi}>send them!</button> : <></>}
+                </div>
+                <br />
+
+                <div className="bg-secondary border border-primary rounded-xl flex">
+                      <div className="p-2 py-1 border-r border-primary flex items-end">Your Villagers</div>
+                      <div className="text-4xl text-right min-w-[3rem] px-2 py-1 flex justify-end font-bai-jamjuree">
+                          <ul>
+                            {papaya? papaya : null}
+                          </ul>
+                      </div>
+                </div>
+
+                
               </div>
+
+            }
+              {loading? 
+
+                <div>
+                  DETERMINING OUTCOME
+                </div>
+                :
+                <></>
+
+              }
+
+            
+
 
             </div>
 
