@@ -21,7 +21,8 @@ contract YourContract {
     string public greeting = "Building Unstoppable Apps!!!";
     bool public premium = false;
     uint256 public totalCounter = 0;
-    string public testing = "asdfasdfda";
+    string public situation = "there is a bear attacking ur village";
+
 
     mapping(address => uint) public userGreetingCounter;
 
@@ -78,7 +79,7 @@ contract YourContract {
 
 //  OUR CODE BELOWWW
 
-    uint dnaDigits = 16;
+    uint dnaDigits = 3;
     uint dnaModulus = 10 ** dnaDigits;
 
     struct Villager {
@@ -86,6 +87,8 @@ contract YourContract {
         uint dna;
         address owner;
     }
+
+    
 
     Villager[] public allVillagers;
 
@@ -127,7 +130,11 @@ contract YourContract {
 
     function _generateRandomDna(string memory _str) private view returns(uint) {
         uint rand = uint(keccak256(abi.encodePacked(_str)));
+        if (rand % dnaModulus > 755) return 754;
+
         return rand % dnaModulus;
+
+        
     }
 
     function createRandomVillager(string memory _name) public {

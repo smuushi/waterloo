@@ -206,7 +206,7 @@ const contracts = {
             },
             {
               inputs: [],
-              name: "testing",
+              name: "situation",
               outputs: [
                 {
                   internalType: "string",
