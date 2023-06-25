@@ -93,6 +93,9 @@ contract YourContract {
         uint dna;
 
         address owner;
+        uint strength;
+        uint dex;
+        uint intelligence;
     }
 
     
