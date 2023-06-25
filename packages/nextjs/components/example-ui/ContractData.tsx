@@ -214,7 +214,8 @@ export const ContractData = () => {
         </section>
 
         <section>
-          <input type="text" value={newVillagerName} onChange={(e) => setNewVillagerName(e.target.value)}/>
+          <label htmlFor="name">Choose a name for your first villager!</label>
+          <input id="name" type="text" value={newVillagerName} onChange={(e) => setNewVillagerName(e.target.value)}/>
           <button onClick={writeAsync}>
             mint!
           </button>

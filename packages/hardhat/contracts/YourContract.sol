@@ -81,11 +81,9 @@ contract YourContract {
     uint maxInventorySpace = 10;
 
     struct NFT {
-        string owner;
-        string creator;
-        uint id;
-        uint supply;
-        uint contractAddress;
+        address owner;
+        address creator;
+        string name;
     }
 
     struct Villager {
@@ -152,14 +150,23 @@ contract YourContract {
         
     }
 
+
     function createRandomVillager(string memory _name) public {
         // require(ownerZombieCount[msg.sender] == 0);
         uint randDna = _generateRandomDna(_name);
         _createVillager(_name, randDna);
     }
 
+    function showAllItems() public view returns(NFT[] memory){
+        return allNFTs;
+    }
 
-    
+
+    function createItem(string memory _name, uint _villagerIdx) public {
+        allNFTs.push(NFT(msg.sender, msg.sender, _name));
+        uint nftId = allNFTs.length;
+        equip(_villagerIdx, nftId);
+    }
 
     // equip(_dna, _equipment) adds _equipment into a villager's inventory if inventory isn't full
 

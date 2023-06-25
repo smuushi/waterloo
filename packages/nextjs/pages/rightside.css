@@ -8,13 +8,22 @@
 .rightside#rightside section input {
     border-radius: 10px;
     margin-right: 10px;
+    margin-left: 10px;
 }
 
 .rightside#rightside section button {
     border-radius: 10px;
     margin-right: 10px;
     border: 1px solid black;
-    padding: 10px;
+    padding: 5px;
+}
+.rightside#rightside section button:hover {
+    border-radius: 10px;
+    margin-right: 10px;
+    border: 1px solid black;
+    padding: 5px;
+    background-color: white;
+    transition-duration: .5s;
 }
 
 .situationdescription {

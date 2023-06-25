@@ -5,7 +5,7 @@ const contracts = {
       name: "localhost",
       contracts: {
         YourContract: {
-          address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+          address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
           abi: [
             {
               inputs: [
@@ -91,29 +91,19 @@ const contracts = {
               name: "allNFTs",
               outputs: [
                 {
-                  internalType: "string",
+                  internalType: "address",
                   name: "owner",
-                  type: "string",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "creator",
+                  type: "address",
                 },
                 {
                   internalType: "string",
-                  name: "creator",
+                  name: "name",
                   type: "string",
-                },
-                {
-                  internalType: "uint256",
-                  name: "id",
-                  type: "uint256",
-                },
-                {
-                  internalType: "uint256",
-                  name: "supply",
-                  type: "uint256",
-                },
-                {
-                  internalType: "uint256",
-                  name: "contractAddress",
-                  type: "uint256",
                 },
               ],
               stateMutability: "view",
@@ -161,6 +151,24 @@ const contracts = {
                 },
               ],
               stateMutability: "view",
+              type: "function",
+            },
+            {
+              inputs: [
+                {
+                  internalType: "string",
+                  name: "_name",
+                  type: "string",
+                },
+                {
+                  internalType: "uint256",
+                  name: "_villagerIdx",
+                  type: "uint256",
+                },
+              ],
+              name: "createItem",
+              outputs: [],
+              stateMutability: "nonpayable",
               type: "function",
             },
             {
@@ -248,6 +256,36 @@ const contracts = {
             },
             {
               inputs: [],
+              name: "showAllItems",
+              outputs: [
+                {
+                  components: [
+                    {
+                      internalType: "address",
+                      name: "owner",
+                      type: "address",
+                    },
+                    {
+                      internalType: "address",
+                      name: "creator",
+                      type: "address",
+                    },
+                    {
+                      internalType: "string",
+                      name: "name",
+                      type: "string",
+                    },
+                  ],
+                  internalType: "struct YourContract.NFT[]",
+                  name: "",
+                  type: "tuple[]",
+                },
+              ],
+              stateMutability: "view",
+              type: "function",
+            },
+            {
+              inputs: [],
               name: "showAllVillagers",
               outputs: [
                 {
@@ -268,11 +306,6 @@ const contracts = {
                       type: "address",
                     },
                     {
-
-                      internalType: "uint256[]",
-                      name: "inventory",
-                      type: "uint256[]",
-
                       internalType: "uint256",
                       name: "strength",
                       type: "uint256",
@@ -286,7 +319,11 @@ const contracts = {
                       internalType: "uint256",
                       name: "intelligence",
                       type: "uint256",
-
+                    },
+                    {
+                      internalType: "uint256[]",
+                      name: "inventory",
+                      type: "uint256[]",
                     },
                   ],
                   internalType: "struct YourContract.Villager[]",
