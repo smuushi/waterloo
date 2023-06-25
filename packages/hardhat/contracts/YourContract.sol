@@ -3,6 +3,9 @@ pragma solidity >=0.8.0 <0.9.0;
 
 // Useful for debugging. Remove when deploying to a live network.
 import "hardhat/console.sol";
+
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+
 // Use openzeppelin to inherit battle-tested implementations (ERC20, ERC721, etc)
 // import "@openzeppelin/contracts/access/Ownable.sol";
 
@@ -18,7 +21,8 @@ contract YourContract {
     string public greeting = "Building Unstoppable Apps!!!";
     bool public premium = false;
     uint256 public totalCounter = 0;
-    string public testing = "asdfasdfda";
+    string public situation = "there is a bear attacking ur village";
+
 
     mapping(address => uint) public userGreetingCounter;
 
@@ -72,7 +76,7 @@ contract YourContract {
 
     // OUR CODE BELOW //
 
-    uint dnaDigits = 16;
+    uint dnaDigits = 3;
     uint dnaModulus = 10 ** dnaDigits;
     uint maxInventorySpace = 10;
 
@@ -87,20 +91,44 @@ contract YourContract {
     struct Villager {
         string name;
         uint dna;
-        NFT[] inventory;
+
+        address owner;
+
     }
+
+    
 
     Villager[] public allVillagers;
 
-    function showOwnedVillagers() public view returns(Villager[] memory) {
+    function showAllVillagers() public view returns(Villager[] memory) {
         return allVillagers;
     }
+
+    // function getOwnedNFTs(address _contractAddress, address _walletAddress) public view returns (uint256[] memory) {
+    //     uint256[] memory ownedNFTs = new uint256[](ERC721(_contractAddress).balanceOf(_walletAddress));
+    //         for (uint256 i = 0; i < ownedNFTs.length; i++) {
+    //             // ownedNFTs[i] = ERC721(_contractAddress).tokenOfOwnerByIndex(_walletAddress, i);
+    //         }
+    //     return ownedNFTs;
+    // }
+
+    // function showOwnedVillagers() public view returns(Villager[] memory) {
+    //     // uint[] memory ownedVillagersIds;
+
+    //     // for(uint i = 0; i < allVillagers.length; i++) {
+    //     //     if (villagerToOwner[i] == msg.sender) {
+    //     //         ownedVillagersIds[i] = i;
+    //     //     }
+    //     // }
+
+    //     // return ownedVillagersIds;
+    // }
 
     mapping (uint => address) public villagerToOwner; // hash for villager id => wallet address
     mapping (address => uint) ownerVillagerCount; // hash for wallet address => their number of villagers they own. 
 
     function _createVillager(string memory _name, uint _dna) private{
-        allVillagers.push(Villager(_name, _dna));
+        allVillagers.push(Villager(_name, _dna, msg.sender));
         uint id = allVillagers.length - 1;
         // address ownerAddress = msg.sender;
         villagerToOwner[id] = msg.sender;
@@ -110,7 +138,11 @@ contract YourContract {
 
     function _generateRandomDna(string memory _str) private view returns(uint) {
         uint rand = uint(keccak256(abi.encodePacked(_str)));
+        if (rand % dnaModulus > 755) return 754;
+
         return rand % dnaModulus;
+
+        
     }
 
     function createRandomVillager(string memory _name) public {

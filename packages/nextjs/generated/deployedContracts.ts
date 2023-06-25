@@ -100,6 +100,11 @@ const contracts = {
                   name: "dna",
                   type: "uint256",
                 },
+                {
+                  internalType: "address",
+                  name: "owner",
+                  type: "address",
+                },
               ],
               stateMutability: "view",
               type: "function",
@@ -171,7 +176,7 @@ const contracts = {
             },
             {
               inputs: [],
-              name: "showOwnedVillagers",
+              name: "showAllVillagers",
               outputs: [
                 {
                   components: [
@@ -185,6 +190,11 @@ const contracts = {
                       name: "dna",
                       type: "uint256",
                     },
+                    {
+                      internalType: "address",
+                      name: "owner",
+                      type: "address",
+                    },
                   ],
                   internalType: "struct YourContract.Villager[]",
                   name: "",
@@ -196,7 +206,7 @@ const contracts = {
             },
             {
               inputs: [],
-              name: "testing",
+              name: "situation",
               outputs: [
                 {
                   internalType: "string",
