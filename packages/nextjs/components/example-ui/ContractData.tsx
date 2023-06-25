@@ -30,6 +30,11 @@ export const ContractData = () => {
     functionName: "totalCounter",
   });
 
+  const { data: situation } = useScaffoldContractRead({
+    contractName: "YourContract",
+    functionName: "situation",
+  });
+
   const { data: currentGreeting, isLoading: isGreetingLoading } = useScaffoldContractRead({
     contractName: "YourContract",
     functionName: "greeting",
@@ -184,7 +189,17 @@ export const ContractData = () => {
                     </div>
                   </div>
 
-          </div>
+              <div className="situationdescription">
+                <section>
+                  <h1>Today's Situation:</h1>
+                  {situation}
+                </section>
+                <p>Select a villager to handle today's situation!</p>
+              </div>
+
+            </div>
+
+
         </div>
       </>
     ) 
