@@ -2,4 +2,17 @@
     border: 1px solid black;
     margin: 10px;
     padding: 10px;
+    background-color: rgb(170, 221, 147);
+}
+
+.rightside#rightside section input {
+    border-radius: 10px;
+    margin-right: 10px;
+}
+
+.rightside#rightside section button {
+    border-radius: 10px;
+    margin-right: 10px;
+    border: 1px solid black;
+    padding: 10px;
 }

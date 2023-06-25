@@ -138,7 +138,7 @@ export const ContractData = () => {
   // useEffect(() => {
 
     // if (villagers){
-  papaya = villagers?.map((villager) => <li> {villager.name}</li>)
+  papaya = Object.values(yourVillagers)?.map((villager) => <li> {villager.name}</li>)
   //   }
 
   // },[villagers])
@@ -148,9 +148,7 @@ export const ContractData = () => {
       <> 
       <div className="rightside" id="rightside">
 
-        <ul>
-          {papaya? papaya : null}
-        </ul>
+       
           <div
             className={`flex flex-col max-w-md bg-base-200 bg-opacity-70 rounded-2xl shadow-lg px-5 py-4 w-full ${
               showAnimation ? "animate-zoom" : ""
@@ -167,14 +165,25 @@ export const ContractData = () => {
 
 
                   <div className="bg-secondary border border-primary rounded-xl flex">
-                    <div className="p-2 py-1 border-r border-primary flex items-end">All Villagers</div>
+                    <div className="p-2 py-1 border-r border-primary flex items-end">All Total Villagers</div>
                     <div className="text-4xl text-right min-w-[3rem] px-2 py-1 flex justify-end font-bai-jamjuree">
-                      {villagers?.toString() || "none atm"}
+                      {villagers?.length || "none atm"}
                     </div>
                   </div>
 
 
+
             </div>
+
+            <div className="bg-secondary border border-primary rounded-xl flex">
+                    <div className="p-2 py-1 border-r border-primary flex items-end">Your Villagers</div>
+                    <div className="text-4xl text-right min-w-[3rem] px-2 py-1 flex justify-end font-bai-jamjuree">
+                        <ul>
+                          {papaya? papaya : null}
+                        </ul>
+                    </div>
+                  </div>
+
           </div>
         </div>
       </>
@@ -185,7 +194,7 @@ export const ContractData = () => {
       <div className="rightside" id="rightside">
 
         <section>
-          <h1 className="header"> create a villager!</h1>
+          <h1 className="header"> Create a Villager!</h1>
           <p> Currently there are no villager NFTs in your wallet. Please mint one to start building up your founderville!</p>
         </section>
 
