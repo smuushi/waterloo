@@ -77,7 +77,7 @@ export const ContractInteraction = () => {
                 <br/>
                 Strength: {parseInt(villager.strength._hex, 16)}
                 <br/>
-                Weapons: {villager.inventory.filter((item) => parseInt(item) !== 0).map((i) => String(items[parseInt(i)-1]?.name)+"|")}
+                Weapons: {villager?.inventory?.filter((item) => parseInt(item) !== 0)?.map((i) => String(items[parseInt(i)-1]?.name)+"|")}
               </a>
             ))}
           </div>

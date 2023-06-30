@@ -61,7 +61,7 @@ export const ContractData = () => {
   // })
 
   const configuration = new Configuration({
-    apiKey: "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",
+    apiKey: "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",
   });
 
 
@@ -239,11 +239,13 @@ export const ContractData = () => {
     
   }
 
-  const mintProcess = () => {
+  const mintProcess = async () => {
     mintNewItem().then(async () => {
       console.log(specialItem)
       debugger
       gravy.writeAsync();
+    }).then(() => {
+      setApiResponse("")
     })
   }
 

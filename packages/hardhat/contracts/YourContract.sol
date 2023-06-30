@@ -129,12 +129,10 @@ contract YourContract {
     mapping (address => uint) ownerVillagerCount; // hash for wallet address => their number of villagers they own. 
 
     function _createVillager(string memory _name, uint _dna) private{
-
-        // NFT[] memory emptyInventory = new NFT[](10);
-
         allVillagers.push(Villager(_name, _dna, msg.sender, _dna % 10, _dna % 100 / 10, _dna / 100, new uint[](10)));
 
         uint id = allVillagers.length - 1;
+        
         // address ownerAddress = msg.sender;
         villagerToOwner[id] = msg.sender;
         ownerVillagerCount[msg.sender]++;
@@ -144,10 +142,7 @@ contract YourContract {
     function _generateRandomDna(string memory _str) private view returns(uint) {
         uint rand = uint(keccak256(abi.encodePacked(_str)));
         if (rand % dnaModulus > 755) return 754;
-
         return rand % dnaModulus;
-
-        
     }
 
 
@@ -161,20 +156,20 @@ contract YourContract {
         return allNFTs;
     }
 
-
     function createItem(string memory _name, uint _villagerIdx) public {
         allNFTs.push(NFT(msg.sender, msg.sender, _name));
         uint nftId = allNFTs.length;
         equip(_villagerIdx, nftId);
     }
 
-    // equip(_dna, _equipment) adds _equipment into a villager's inventory if inventory isn't full
-
     function equip(uint _villagerIndex, uint _NFTIndex) public {
         // NFT storage selectedNFT = allNFTs[_NFTIndex];
         // Villager storage selectedVillager = allVillagers[_villagerIndex];
         allVillagers[_villagerIndex].inventory.push(_NFTIndex);
     }
+
+
+
 
     // function equip(uint _dna, NFT _equipment) public {
     //     for (uint _i = 0; _i < maxInventorySpace; ++_i) {
